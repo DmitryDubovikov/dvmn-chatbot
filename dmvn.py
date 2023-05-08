@@ -3,10 +3,15 @@ from requests.exceptions import ReadTimeout, ConnectionError
 import telegram
 from dotenv import load_dotenv
 import os
-import sys
+import argparse
+
+parser = argparse.ArgumentParser(
+    description="Отправлять уведомления о проверке работ в предоставленный id телеграма"
+)
+parser.add_argument("chat_id", help="Ваш chat_id в телеграме")
+args = parser.parse_args()
 
 load_dotenv()
-
 
 API_TOKEN = os.environ["API_TOKEN"]
 TG_TOKEN = os.environ["TG_TOKEN"]
@@ -18,14 +23,6 @@ bot = telegram.Bot(token=TG_TOKEN)
 headers = {"Authorization": f"Token {API_TOKEN}"}
 timestamp = None
 
-if len(sys.argv) == 2:
-    MY_CHAT_ID = sys.argv[1]
-else:
-    print(sys.argv)
-    print(
-        "Необходимо передать ровно 1 параметр: id чата в телеграм, для отправки сообщений"
-    )
-    sys.exit()
 
 while True:
     params = {"timestamp": timestamp}
@@ -52,7 +49,7 @@ while True:
                 Преподаватель проверил работу '{lesson_title}'.                 
                 {'К сожалению, в работе нашлись ошибки.' if is_negative else 'Всё ОК, можно приступать к следующему уроку.'}
                 URL проверенной работы: {lesson_url}.""",
-                chat_id=MY_CHAT_ID,
+                chat_id=args.chat_id,
             )
 
         else:
