@@ -12,7 +12,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-* создать .env файл, в котором указать API_TOKEN = API_TOKEN для доступа к сайту dvmn и TELEGRAM_TOKEN = TELEGRAM_TOKEN вашего ТГ-бота
+* создать .env файл, в котором указать DVMN_API_TOKEN = DVMN_API_TOKEN для доступа к сайту dvmn и TELEGRAM_TOKEN = TELEGRAM_TOKEN вашего ТГ-бота
 ```
 API_TOKEN=your_apitoken_for_dvmn.org
 TELEGRAM_TOKEN=token_of_your_tg_bot

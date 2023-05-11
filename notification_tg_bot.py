@@ -6,6 +6,7 @@ import os
 import argparse
 import time
 
+URL_LIST_LONG_POLLING = "https://dvmn.org/api/long_polling/"
 
 def main():
     parser = argparse.ArgumentParser(
@@ -16,14 +17,12 @@ def main():
 
     load_dotenv()
 
-    API_TOKEN = os.environ["API_TOKEN"]
-    TELEGRAM_TOKEN = os.environ["TELEGRAM_TOKEN"]
+    dvmn_api_token = os.environ["DVMN_API_TOKEN"]
+    telegram_token = os.environ["TELEGRAM_TOKEN"]    
 
-    URL_LIST_LONG_POLLING = "https://dvmn.org/api/long_polling/"
+    bot = telegram.Bot(token=telegram_token)
 
-    bot = telegram.Bot(token=TELEGRAM_TOKEN)
-
-    headers = {"Authorization": f"Token {API_TOKEN}"}
+    headers = {"Authorization": f"Token {dvmn_api_token}"}
     timestamp = None
 
     while True:
@@ -35,13 +34,13 @@ def main():
             )
             response.raise_for_status()
 
-            response_json = response.json()
-            status = response_json.get("status")
+            attempts_data = response.json()
+            status = attempts_data.get("status")
 
             if status == "found":
-                timestamp = response_json.get("last_attempt_timestamp")
+                timestamp = attempts_data.get("last_attempt_timestamp")
 
-                attempt = response_json.get("new_attempts")[0]
+                attempt = attempts_data.get("new_attempts")[0]
                 is_negative = attempt.get("is_negative")
                 lesson_title = attempt.get("lesson_title")
                 lesson_url = attempt.get("lesson_url")
@@ -55,7 +54,7 @@ def main():
                 )
 
             else:
-                timestamp = response_json.get("timestamp_to_request")
+                timestamp = attempts_data.get("timestamp_to_request")
 
         except ReadTimeout:
             pass
