@@ -28,6 +28,12 @@ def main(bot):
 
     logger.info("Bot started")
 
+    # catch errors and write to log.
+    try:
+        a = 0 / 0
+    except ZeroDivisionError:
+        logger.warning("Тут ошибка деления на ноль, но мы продолжаем работать")
+
     while True:
         params = {"timestamp": timestamp}
 
@@ -81,7 +87,7 @@ if __name__ == "__main__":
     bot = telegram.Bot(token=telegram_token)
 
     logger = logging.getLogger("Logger")
-    logger.setLevel(logging.INFO)  # TODO: change to WARNING
+    logger.setLevel(logging.WARNING)
     logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
 
     main(bot=bot)
