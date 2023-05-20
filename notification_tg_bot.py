@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import argparse
 import time
+import logging
 
 URL_LIST_LONG_POLLING = "https://dvmn.org/api/long_polling/"
 
@@ -64,4 +65,6 @@ def main():
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.DEBUG)
+    logging.debug('Сообщение уровня DEBUG')
     main()
