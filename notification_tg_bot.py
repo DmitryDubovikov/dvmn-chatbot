@@ -28,12 +28,6 @@ def main(bot):
 
     logger.info("Bot started")
 
-    # catch errors and write to log.
-    try:
-        a = 0 / 0
-    except ZeroDivisionError:
-        logger.warning("Тут ошибка деления на ноль, но мы продолжаем работать")
-
     while True:
         params = {"timestamp": timestamp}
 
