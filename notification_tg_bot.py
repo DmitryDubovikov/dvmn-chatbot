@@ -21,7 +21,23 @@ class TelegramLogsHandler(logging.Handler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def main(bot):
+def main():
+    parser = argparse.ArgumentParser(
+        description="Отправлять уведомления о проверке работ в предоставленный id телеграма"
+    )
+    parser.add_argument("tg_chat_id", help="Ваш chat_id в телеграме")
+    args = parser.parse_args()
+
+    tg_chat_id = args.tg_chat_id
+
+    load_dotenv()
+
+    telegram_token = os.environ["TELEGRAM_TOKEN"]
+    bot = telegram.Bot(token=telegram_token)
+
+    logger = logging.getLogger("Logger")
+    logger.setLevel(logging.WARNING)
+    logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
     dvmn_api_token = os.environ["DVMN_API_TOKEN"]
     headers = {"Authorization": f"Token {dvmn_api_token}"}
     timestamp = None
@@ -66,22 +82,4 @@ def main(bot):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Отправлять уведомления о проверке работ в предоставленный id телеграма"
-    )
-    parser.add_argument("tg_chat_id", help="Ваш chat_id в телеграме")
-    args = parser.parse_args()
-
-    tg_chat_id = args.tg_chat_id
-    # tg_chat_id = 364129987
-
-    load_dotenv()
-
-    telegram_token = os.environ["TELEGRAM_TOKEN"]
-    bot = telegram.Bot(token=telegram_token)
-
-    logger = logging.getLogger("Logger")
-    logger.setLevel(logging.WARNING)
-    logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
-
-    main(bot=bot)
+    main()
