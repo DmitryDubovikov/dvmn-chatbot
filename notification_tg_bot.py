@@ -6,6 +6,7 @@ import os
 import argparse
 import time
 import logging
+import textwrap
 
 URL_LIST_LONG_POLLING = "https://dvmn.org/api/long_polling/"
 
@@ -65,9 +66,12 @@ def main():
                 lesson_url = attempt.get("lesson_url")
 
                 bot.send_message(
-                    text=f"Преподаватель проверил работу '{lesson_title}'.\n"
-                    + f"{'К сожалению, в работе нашлись ошибки.' if is_negative else 'Всё ОК, можно приступать к следующему уроку.'}\n"
-                    + f"URL проверенной работы:\n {lesson_url}.",
+                    text=textwrap.dedent(
+                        f"""Преподаватель проверил работу '{lesson_title}'.
+                        {'К сожалению, в работе нашлись ошибки.' if is_negative else 'Всё ОК, можно приступать к следующему уроку.'}\n"
+                        f"URL проверенной работы:
+                        {lesson_url}."""
+                    ),
                     chat_id=tg_chat_id,
                 )
 
