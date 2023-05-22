@@ -67,10 +67,12 @@ def main():
 
                 bot.send_message(
                     text=textwrap.dedent(
-                        f"""Преподаватель проверил работу '{lesson_title}'.
-                        {'К сожалению, в работе нашлись ошибки.' if is_negative else 'Всё ОК, можно приступать к следующему уроку.'}\n"
+                        f"""\
+                        Преподаватель проверил работу '{lesson_title}'.
+                        {'К сожалению, в работе нашлись ошибки.' if is_negative else 'Всё ОК, можно приступать к следующему уроку.'}"
                         f"URL проверенной работы:
-                        {lesson_url}."""
+                        {lesson_url}
+                        """
                     ),
                     chat_id=tg_chat_id,
                 )
