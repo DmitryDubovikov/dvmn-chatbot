@@ -10,6 +10,8 @@ import textwrap
 
 URL_LIST_LONG_POLLING = "https://dvmn.org/api/long_polling/"
 
+logger = logging.getLogger("Logger")
+
 
 class TelegramLogsHandler(logging.Handler):
     def __init__(self, tg_bot, chat_id):
@@ -36,7 +38,6 @@ def main():
     telegram_token = os.environ["TELEGRAM_TOKEN"]
     bot = telegram.Bot(token=telegram_token)
 
-    logger = logging.getLogger("Logger")
     logger.setLevel(logging.WARNING)
     logger.addHandler(TelegramLogsHandler(bot, tg_chat_id))
     dvmn_api_token = os.environ["DVMN_API_TOKEN"]
